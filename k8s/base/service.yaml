@@ -1,0 +1,163 @@
+# Frontend service configuration
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service 
+spec: 
+  selector:
+    app: frontend-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+      nodePort: 30080
+  type: NodePort
+  
+  
+  # loadBalancerIP:
+
+--- 
+#Product Catalog service
+apiVersion: v1
+kind: Service
+metadata: 
+  name: product-catalog-service
+spec: 
+  selector: 
+    app: product-catalog-app
+  ports: 
+    - protocol: TCP
+      port: 3550
+      targetPort: 3550
+  type: ClusterIP
+
+--- 
+apiVersion: v1
+kind: Service
+metadata: 
+  name: cart-service
+spec: 
+  selector: 
+    app: cart-app
+  ports: 
+    - protocol: TCP
+      port: 7070
+      targetPort: 7070
+  type: ClusterIP 
+
+--- 
+# email service
+apiVersion: v1 
+kind: Service 
+metadata: 
+  name: email-service 
+spec: 
+  selector: 
+    app: email-app
+  ports: 
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+  type: ClusterIP
+
+--- 
+# Chekout 
+apiVersion: v1
+kind: Service
+metadata: 
+  name: checkout-service
+spec: 
+  selector: 
+    app: checkout-app
+  ports: 
+    - protocol: TCP
+      port: 5050 
+      targetPort: 5050
+  type: ClusterIP 
+---
+# recommendation service
+apiVersion: v1
+kind: Service
+metadata: 
+  name: recommendation-service
+spec: 
+  selector: 
+    app: recommendation-app
+  ports:      
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+  type: ClusterIP 
+---   
+# Currency service
+apiVersion: v1
+kind: Service
+metadata: 
+  name: currency-service
+spec: 
+  selector: 
+    app: currency-app
+  ports: 
+    - protocol: TCP
+      port: 7000
+      targetPort: 7000
+  type: ClusterIP 
+---
+# Ads service 
+apiVersion: v1
+kind: Service
+metadata:
+  name: ads-service
+spec:
+  selector:
+    app: ads-app
+  ports:
+    - protocol: TCP
+      port: 9555
+      targetPort: 9555
+  type: ClusterIP
+---
+# Shipping service
+apiVersion: v1
+kind: Service
+metadata:
+  name: shipping-service
+spec:
+  selector:   
+    app: shipping-app
+  ports:
+    - protocol: TCP   
+      port: 50051
+      targetPort: 50051
+  type: ClusterIP
+---
+# Load generator service
+apiVersion: v1
+kind: Service
+metadata:
+  name: payment-service
+spec: 
+  selector:
+    app: payment-app
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000
+  type: ClusterIP
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-cart
+spec:
+  type: ClusterIP
+  selector:
+    app: redis-cart
+  ports:
+  - name: tcp-redis
+    port: 6379
+    targetPort: 6379
+---
+
+

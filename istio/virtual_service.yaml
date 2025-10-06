@@ -1,0 +1,25 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: frontendapp-virtual-service
+  namespace: default
+spec:
+  hosts:
+  -  "*"
+
+  gateways:
+  - my-gateway
+  
+  http:
+  - name: "frontendapp-route1"
+    route:
+    - destination:
+        host: frontend-service
+        subset: v1
+      weight: 80
+  - name: "frontendapp-route2"
+    route:
+    - destination:
+        host: frontend-service
+        subset: v2
+      weight: 20

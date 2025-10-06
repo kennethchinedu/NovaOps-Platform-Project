@@ -1,0 +1,48 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: global-virtual-service
+  namespace: default
+spec: 
+  hosts: 
+    - frontend-service
+
+  http:
+
+  #Route traffic if URI starts with / to frontend-service by default
+  - name: frontend-route 
+    route: 
+      - destination: 
+          host: frontend-service
+          port: 
+            number: 80
+
+
+
+  - name: product-catalog-route
+    match:
+      - uri:
+          prefix: /products
+    rewrite:
+      uri: /
+    route:
+      - destination:
+          host: product-catalog-service
+          port:
+            number: 3550
+
+  - name: cart-route
+    match:
+      - uri:
+          prefix: /cart
+    # rewrite:
+    #   uri: /
+    route:
+      - destination:
+          host: cart-service
+          port:
+            number: 7070
+
+
+
+            

@@ -1,0 +1,574 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-app
+  namespace: default
+  labels:
+    app: frontend-app
+    dev: frontend
+spec:
+  selector:
+    matchLabels:
+      app: frontend-app
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: frontend-app
+    spec:
+      containers:
+      - name: frontend
+        image: anamskenneth/frontend:2025-07-24
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: PORT
+          value: "8080"
+        - name: PRODUCT_CATALOG_SERVICE_ADDR
+          value: "product-catalog-service:3550"
+        - name: CURRENCY_SERVICE_ADDR
+          value: "currency-service:7000"
+        - name: CART_SERVICE_ADDR
+          value: "cart-service:7070"
+        - name: RECOMMENDATION_SERVICE_ADDR
+          value: "recommendation-service:8080"
+        - name: SHIPPING_SERVICE_ADDR
+          value: "shipping-service:50051"
+        - name: CHECKOUT_SERVICE_ADDR
+          value: "checkout-service:5050"
+        - name: AD_SERVICE_ADDR
+          value: "ads-service:9555"
+        ports:
+        - containerPort: 8080
+          name: frontend-port
+        volumeMounts:
+        - name: localvolume
+          mountPath: /etc/localdev
+      volumes:
+        - name: localvolume
+          hostPath:
+            path: /etc/app
+      # restartPolicy: Always
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: product-catalog-app
+  namespace: default
+  labels:
+    app: product-catalog-app
+    dev: productcatalog 
+spec:
+  selector:
+    matchLabels:
+      app: product-catalog-app
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: product-catalog-app
+    spec:
+      containers:
+        - name: product-catalog
+          image: anamskenneth/productcatalogservice:2025-07-24
+          imagePullPolicy: IfNotPresent
+          env: 
+          - name: PORT
+            value: "3550"
+          ports:
+          - containerPort: 3550
+            name: catalog-port
+          volumeMounts:
+          - name: localvolume
+            mountPath: /etc/localdev
+      volumes:
+        - name: localvolume
+          hostPath: 
+            path: /etc/app
+
+---
+apiVersion: apps/v1
+kind: Deployment 
+metadata:
+  name: cart-app
+  namespace: default
+  labels:
+    app: cart-app
+    dev: cartservice 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cart-app
+    
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    
+  template:
+    metadata:
+      labels:
+        app: cart-app
+    spec:
+      containers:
+      - name: cartservice
+        image: anamskenneth/cartservice:2025-07-24
+        imagePullPolicy: IfNotPresent
+        env:
+          - name: PORT
+            value: "7070" 
+          - name: REDIS_ADDR
+            value: "redis-cart:6379"
+        ports:
+          - containerPort: 7070
+            name: cart-port
+        volumeMounts:
+          - name: localvolume
+            mountPath: /etc/localdev
+      volumes:
+        - name: localvolume
+          hostPath: 
+            path: /etc/app
+
+--- 
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: email-app
+  namespace: default
+  labels:
+    app: email-app
+    dev: emailapp 
+spec:
+  selector:
+    matchLabels:
+      app: email-app
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: email-app
+    spec:
+      containers:
+        - name: emailapp
+          image: anamskenneth/emailservice:2025-07-24
+          imagePullPolicy: IfNotPresent
+          env: 
+          - name: PORT
+            value: "8080"
+          ports:
+          - containerPort: 8080
+            name: email-port
+          volumeMounts:
+          - name: localvolume
+            mountPath: /etc/localdev
+      volumes:
+        - name: localvolume
+          hostPath: 
+            path: /etc/app
+--- 
+
+apiVersion: apps/v1
+kind: Deployment 
+metadata: 
+  name: checkout-app 
+  namespace: default 
+  labels: 
+    app: checkout-app 
+    dev: checkoutservice
+spec:
+  selector:
+    matchLabels: 
+      app: checkout-app
+  replicas:  1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25% 
+  template:
+    metadata: 
+      labels: 
+        app: checkout-app 
+    spec: 
+      containers:
+      - name: checkout
+        image: anamskenneth/checkoutservice:2025-07-24
+        imagePullPolicy: IfNotPresent
+        env:
+          - name: PORT
+            value: "5050"
+          - name: DISABLE_PROFILER
+            value: "1"
+          - name: DISABLE_DEBUGGER
+            value: "1"
+
+          - name: PRODUCT_CATALOG_SERVICE_ADDR
+            value: "product-catalog-service:3550"
+          - name: CURRENCY_SERVICE_ADDR
+            value: "currency-service:7000"
+          - name: CART_SERVICE_ADDR
+            value: "cart-service:7070"
+          - name: RECOMMENDATION_SERVICE_ADDR
+            value: "recommendation-service:8080"
+          - name: SHIPPING_SERVICE_ADDR
+            value: "shipping-service:50051"
+          - name: CHECKOUT_SERVICE_ADDR
+            value: "checkout-service:5050"
+          - name: AD_SERVICE_ADDR
+            value: "adservice:9555"
+          - name: PAYMENT_SERVICE_ADDR
+            value: "payment-service:5000"
+          - name: EMAIL_SERVICE_ADDR
+            value: "email-service:8080"
+          
+        ports:
+          - containerPort: 5050
+            name: checkout-port
+        volumeMounts:
+          - name: localvolume
+            mountPath: /etc/localdev
+      volumes:
+        - name: localvolume
+          hostPath: 
+            path: /etc/app
+      
+---
+  
+apiVersion: apps/v1 
+kind: Deployment 
+metadata: 
+  name: recommendation-app 
+  namespace: default
+  labels: 
+    app: recommendation-app 
+    dev: recommendationservice
+spec: 
+  selector: 
+    matchLabels:
+      app: recommendation-app
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+  template:
+    metadata:
+      labels: 
+        app: recommendation-app
+    spec:
+      containers:
+      - name: recommendationservice
+        image: anamskenneth/recommendationservice:2025-07-24
+        imagePullPolicy: IfNotPresent
+        env: 
+        - name: PORT 
+          value: "8080" 
+        - name: PRODUCT_CATALOG_SERVICE_ADDR
+          value: "productcatalogservice:3550"
+        ports:
+          - containerPort: 8080
+            name: recommend-port
+        volumeMounts:
+          - name: localvolume
+            mountPath: /etc/localdev
+      volumes:
+        - name: localvolume
+          hostPath: 
+            path: /etc/app 
+
+---
+
+apiVersion: apps/v1
+kind: Deployment 
+metadata: 
+  name: currency-app 
+  namespace: default 
+  labels: 
+    app: currency-app 
+    dev: currencyservice
+spec: 
+  selector:
+    matchLabels: 
+      app: currency-app 
+  replicas: 1
+  strategy: 
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+  template:
+    metadata: 
+      labels:
+        app: currency-app
+    spec: 
+      containers: 
+        - name: currency-app
+          image: anamskenneth/currencyservice:2025-07-24
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: PORT
+              value: "7000"
+            - name: DISABLE_PROFILER
+              value: "1"
+            - name: DISABLE_DEBUGGER
+              value: "1"
+          ports:
+            - containerPort: 7000
+              name: currency-port
+          volumeMounts:
+            - name: localvolume
+              mountPath: /etc/localdev 
+      volumes:
+        - name: localvolume
+          hostPath:
+            path: /etc/app 
+
+
+--- 
+apiVersion: apps/v1
+kind: Deployment 
+metadata: 
+  name: ads-app 
+  namespace: default 
+  labels: 
+    app: ads-app 
+    dev: adservice 
+spec: 
+  selector: 
+    matchLabels: 
+      app: ads-app
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+  template: 
+    metadata: 
+      labels: 
+        app: ads-app 
+    spec: 
+      containers: 
+        - name: ads-app 
+          image: anamskenneth/adservice:2025-07-24
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: PORT
+              value: "9555"
+          ports:
+            - containerPort: 9555
+              name: ads-port
+          volumeMounts:
+            - name: localvolume
+              mountPath: /etc/localdev 
+      volumes:
+        - name: localvolume
+          hostPath:
+            path: /etc/app
+
+--- 
+apiVersion: apps/v1
+kind: Deployment 
+metadata: 
+  name: shipping-app 
+  namespace: default 
+  labels: 
+    app: shipping-app 
+    dev: shippingservice
+spec: 
+  selector: 
+    matchLabels:
+      app: shipping-app
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+  template:
+    metadata:
+      labels: 
+        app: shipping-app
+    spec:
+      containers: 
+        - name: shipping-app
+          image: anamskenneth/shippingservice:2025-07-24
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: PORT
+              value: "50051"
+          ports:
+            - containerPort: 50051
+              name: shipping-port
+          volumeMounts:
+            - name: localvolume
+              mountPath: /etc/localdev 
+      volumes:
+        - name: localvolume
+          hostPath:
+            path: /etc/app
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment-app
+  namespace: default
+  labels:
+    app: payment-app
+    dev: paymentservice
+spec:
+  selector:
+    matchLabels:
+      app: payment-app  
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: payment-app
+    spec:
+      containers:
+        - name: paymentservice
+          image: anamskenneth/paymentservice:2025-07-24
+          imagePullPolicy: IfNotPresent
+          env:
+      
+            - name: PORT
+              value: "5000"
+
+            - name: DISABLE_PROFILER
+              value: "1"
+            - name: DISABLE_DEBUGGER
+              value: "1"
+          ports:
+            - containerPort: 5000
+              name: payment-port
+          volumeMounts:
+            - name: localvolume
+              mountPath: /etc/localdev
+      volumes:
+        - name: localvolume
+          hostPath:
+            path: /etc/app 
+
+--- 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-cart
+spec:
+  selector:
+    matchLabels:
+      app: redis-cart
+  template:
+    metadata:
+      labels:
+        app: redis-cart
+    spec:
+      securityContext:
+        fsGroup: 1000
+        runAsGroup: 1000
+        runAsNonRoot: true
+        runAsUser: 1000
+      containers:
+      - name: redis
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
+          privileged: false
+          readOnlyRootFilesystem: true
+        image: redis:alpine
+        ports:
+        - containerPort: 6379
+        readinessProbe:
+          periodSeconds: 5
+          tcpSocket:
+            port: 6379
+        livenessProbe:
+          periodSeconds: 5
+          tcpSocket:
+            port: 6379
+        volumeMounts:
+        - mountPath: /data
+          name: redis-data
+        resources:
+          limits:
+            memory: 256Mi
+            cpu: 125m
+          requests:
+            cpu: 70m
+            memory: 200Mi
+      volumes:
+      - name: redis-data
+        emptyDir: {}
+
+---
+
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: load-generator-app
+#   namespace: default
+#   labels:
+#     app: load-generator-app
+#     dev: loadgenerator
+# spec:
+#   selector:
+#     matchLabels:
+#       app: load-generator-app
+#   replicas: 1
+#   strategy:
+#     rollingUpdate:
+#       maxSurge: 25% 
+#       maxUnavailable: 25%
+#     type: RollingUpdate
+#   template:
+#     metadata:
+#       labels:
+#         app: load-generator-app
+#     spec:
+#       containers:
+#         - name: loadgenerator
+#           image: anamskenneth/loadgenerator:2025-07-24
+#           imagePullPolicy: IfNotPresent
+#           env:
+#             - name: PORT
+#               value: "8080"
+#           ports:
+#             - containerPort: 8080
+#               name: loadgen-port
+#           volumeMounts:
+#             - name: localvolume
+#               mountPath: /etc/localdev
+#       volumes:
+#         - name: localvolume
+#           hostPath: 
+#             path: /etc/app
