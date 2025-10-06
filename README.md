@@ -20,61 +20,69 @@ This project provides a complete, modular platform for deploying and managing cl
 ---
 
 ## 📁 Repository Structure
-
 .
 ├── argocd
-│   ├── apps/                 # ArgoCD App manifests (per-app or per-environment)
-│   │   ├── app-frontend-prod.yaml
-│   │   └── app-backend-staging.yaml
-│   └── projects/
-│       ├── project-prod.yaml
-│       └── project-staging.yaml
-├── cloudflare                # infra-as-code for edge (Terraform)
+│ ├── apps/ # ArgoCD App manifests (per-app or per-environment)
+│ │ ├── app-frontend-prod.yaml
+│ │ └── app-backend-staging.yaml
+│ └── projects/
+│ ├── project-prod.yaml
+│ └── project-staging.yaml
+│
+├── cloudflare # infra-as-code for edge (Terraform)
+│
 ├── infra
-│   ├── environments
-│   │   ├── prod
-│   │   │   ├── terragrunt.hcl
-│   │   │   └── region/
-│   │   └── staging
-│   │       └── terragrunt.hcl
-│   ├── modules
-│   │   ├── eks
-│   │   ├── global
-│   │   ├── security
-│   │   └── vpc
-│   └── terragrunt             # shared terragrunt helpers / remote state config (optional)
+│ ├── environments
+│ │ ├── prod
+│ │ │ ├── terragrunt.hcl
+│ │ │ └── region/
+│ │ └── staging
+│ │ └── terragrunt.hcl
+│ ├── modules
+│ │ ├── eks
+│ │ ├── global
+│ │ ├── security
+│ │ └── vpc
+│ └── terragrunt # shared terragrunt helpers / remote state config
+│
 ├── istio
-│   ├── global/
-│   │   ├── destination_rule.yaml
-│   │   └── virtual_service.yaml
-│   ├── gateways/
-│   │   └── gateway.yaml
-│   └── apps/
-│       ├── frontend/
-│       │   └── virtual_service.yaml
-│       └── backend/
-│           └── destination_rule.yaml
+│ ├── global/
+│ │ ├── destination_rule.yaml
+│ │ └── virtual_service.yaml
+│ ├── gateways/
+│ │ └── gateway.yaml
+│ └── apps/
+│ ├── frontend/
+│ │ └── virtual_service.yaml
+│ └── backend/
+│ └── destination_rule.yaml
+│
 ├── k8s
-│   ├── base                  # kustomize base resources
-│   │   ├── deployment.yaml
-│   │   ├── service.yaml
-│   │   ├── ingress.yaml
-│   │   ├── service_account.yaml
-│   │   └── volume.yaml
-│   ├── overlays              # env-specific overlays (kustomize)
-│   │   ├── prod
-│   │   └── staging
-│   └── helm                  # all helm charts (chart per service)
+│ ├── base # Kustomize base resources
+│ │ ├── deployment.yaml
+│ │ ├── service.yaml
+│ │ ├── ingress.yaml
+│ │ ├── service_account.yaml
+│ │ └── volume.yaml
+│ ├── overlays # Env-specific overlays (kustomize)
+│ │ ├── prod
+│ │ └── staging
+│ └── helm # Helm charts for all microservices
+│
 ├── observability
-│   ├── prometheus
-│   ├── grafana
-│   └── loki
+│ ├── prometheus
+│ ├── grafana
+│ └── loki
+│
 ├── security
-│   ├── opa-policies
-│   └── terraform-policies
-├── ci-cd                      # github actions / gitlab pipelines / scripts
+│ ├── opa-policies
+│ └── terraform-policies
+│
+├── ci-cd # GitHub Actions / GitLab Pipelines / scripts
+│
 ├── docs
-│   ├── architecture.md
-│   └── runbooks/
+│ ├── architecture.md
+│ └── runbooks/
+│
 ├── makefile
 └── README.md
