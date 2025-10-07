@@ -9,7 +9,7 @@ locals {
   
 
   tags_map = {
-    Environment = local.environment      # or dynamic from folder
+    Environment = local.environment      
     Project     = "VQualis"
     Service     = local.service_name
     ManagedBy   = get_aws_account_alias()
