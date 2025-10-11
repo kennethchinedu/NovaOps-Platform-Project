@@ -20,7 +20,9 @@ spec:
       name: https-443
       protocol: HTTPS
     hosts:
-    - "*"
+    - "*" 
+
+    
   #   tls:
   #     mode: SIMPLE # enables HTTPS on this port
   #     serverCertificate: /etc/certs/servercert.pem
@@ -46,3 +48,22 @@ spec:
   #     protocol: MONGO
   #   hosts:
   #   - "*"
+
+
+
+
+#To Do today 
+# deploy app 
+# create destination rule
+# create virtual service
+# create gateway
+# test access from outside
+# Set up argocd and gitops for deployment
+# Set up monitoring and logging (prometheus, grafana, kiali)
+# set up infra for cloudflare
+# set up dns for cloudflare
+# set up zones and connect domain
+# set up ssl for cloudflare
+# connect cloudflare to istio ingress gateway]
+
+
