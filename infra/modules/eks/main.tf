@@ -5,7 +5,7 @@ module "eks_al2023" {
   source  = "terraform-aws-modules/eks/aws"
   version = "~> 21.0"
 
-  name               = "${var.tags["Environment"]}-eks"
+  name               = "${var.tags["Environment"]}-eks2"
   kubernetes_version = "1.33"
 
   # Enable accessing cluster from anywhere
@@ -61,6 +61,6 @@ module "eks_al2023" {
 
     tags = merge(
         var.tags,              
-        { Name = "${var.tags["Environment"]}-eks" }  
+        { Name = "${var.tags["Environment"]}-eks2" }  
     )
 }
