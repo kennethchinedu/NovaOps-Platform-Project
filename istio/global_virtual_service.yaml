@@ -6,6 +6,14 @@ metadata:
 spec: 
   hosts: 
     - frontend-service
+  #Applying the gateway to expose the services outside the mesh
+  # without this gateway, the services will be accessible only within the mesh
+  # i.e. from other services within the mesh
+  # with this gateway, the services will be accessible from outside the mesh
+  # i.e. from outside the cluster
+  gateways:
+    - my-gateway
+    - mesh # to allow internal communication within the mesh
   http:
   #Route traffic if URI starts with / to frontend-service by default
   - name: frontend-route 
@@ -13,8 +21,17 @@ spec:
       - destination: 
           host: frontend-service
           port: 
+            number: 80 
+        subset: v1
+        weight: 80
+      - destination:
+          host: frontend-service
+          port: 
             number: 80
-            
+        subset: v2
+        weight: 20
+
+
   - name: product-catalog-route
     match:
       - uri:
@@ -38,6 +55,104 @@ spec:
           host: cart-service
           port:
             number: 7070
+
+  - name: email-route
+    match:
+      - uri:
+          prefix: /email
+    # rewrite:
+    #   uri: /
+    route:
+      - destination:
+          host: email-service
+          port:
+            number: 8080
+
+  - name: email-route
+    match:
+      - uri:
+          prefix: /checkout
+    # rewrite:
+    #   uri: /
+    route:
+      - destination:
+          host: checkout-service
+          port:
+            number: 5050
+
+  - name: recommendation-route
+    match:
+      - uri:
+          prefix: /recommendation
+    # rewrite:
+    #   uri: /
+    route:
+      - destination:
+          host: recommendation-service
+          port:
+            number: 8080  
+
+  - name: currency-route
+    match:
+      - uri:
+          prefix: /currency
+    # rewrite:
+    #   uri: /
+    route:
+      - destination:
+          host: currency-service
+          port:
+            number: 7000
+  
+  - name: ads-route
+    match:
+      - uri:
+          prefix: /ads
+    # rewrite:
+    #   uri: /
+    route:
+      - destination:
+          host: ads-service
+          port:
+            number: 9555
+
+  - name: shipping-route
+    match:
+      - uri:
+          prefix: /shipping
+    # rewrite:
+    #   uri: /
+    route:
+      - destination:
+          host: shipping-service
+          port:
+            number: 50051
+
+  - name: payment-route
+    match:
+      - uri:
+          prefix: /payment
+    # rewrite:
+    #   uri: /
+    route:
+      - destination:
+          host: payment-service
+          port:
+            number: 5000
+  
+  - name: redis-route
+    match:
+      - uri:
+          prefix: /redis
+    # rewrite:
+    #   uri: /
+    route:
+      - destination:
+          host: redis-service
+          port:
+            number: 6379
+
+
 
 
 
