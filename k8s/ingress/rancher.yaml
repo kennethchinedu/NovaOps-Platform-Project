@@ -1,0 +1,23 @@
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: rancher-expose
+  namespace: cattle-system
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: a28bf463360d941ec978a961c4bc737c-1299177444.us-east-1.elb.amazonaws.com      #  load balancer url 
+    http:
+      paths:
+      - path: /rancher
+        pathType: Prefix
+        backend:
+          service:
+            name: rancher
+            port:
+              number: 80

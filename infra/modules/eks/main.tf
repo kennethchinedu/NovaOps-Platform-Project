@@ -32,9 +32,9 @@ module "eks_al2023" {
   self_managed_node_groups = {
     example = {
       ami_type      = "AL2023_x86_64_STANDARD"
-      instance_type = "m6i.large"
+      instance_type = "t3.medium"
 
-      min_size = 2
+      min_size = 1
       max_size = 3
       # This value is ignored after the initial creation
       # https://github.com/bryantbiggs/eks-desired-size-hack
@@ -59,8 +59,34 @@ module "eks_al2023" {
     }
   }
 
+
     tags = merge(
         var.tags,              
         { Name = "${var.tags["Environment"]}-eks2" }  
     )
+}
+
+
+resource "aws_security_group" "k8s-node-sg-default" {
+  name        = "${var.tags["Environment"]}-sg-group"
+  vpc_id      = var.vpc_id
+  description = "Managed by Terraform"
+
+  tags = {
+    Environment                                 = "sandbox"
+    Team                                        = "DevOps"
+    Terraform                                   = "true"
+    "kubernetes.io/cluster/${module.eks_al2023.cluster_name}" = "owned"
+  }
+}
+
+# Kubernetes node additional security group rules
+
+resource "aws_security_group_rule" "k8s-node-sg-allow-ssh-connections" {
+  type              = "ingress"
+  from_port         = 22
+  to_port           = 22
+  protocol          = "TCP"
+  cidr_blocks       = var.subnet_cidr
+  security_group_id = aws_security_group.k8s-node-sg-default.id
 }

@@ -20,8 +20,21 @@ generate "providers" {
 provider "aws" {
   region = "us-east-1"
 }
+
+provider "kubernetes" {
+  config_path    = "~/.kube/config"
+  config_context = var.kubeconfig_context
+}
+
+provider "helm" {
+  kubernetes {
+    config_path    = "~/.kube/config"
+    config_context = var.kubeconfig_context
+  }
+}
 EOF
 }
+
 
 #Defining Global tags 
 locals {
@@ -34,3 +47,5 @@ locals {
     Environment = local.environment
   }
 }
+
+

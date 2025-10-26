@@ -9,11 +9,11 @@ variable "vpc_id" {
 
 
 variable "private_subnet_ids" {
-  description = "CIDR block for subnets "
+  description = "Private  subnets "
   type        = list(string)
 }
 variable "public_subnet_ids" {
-  description = "CIDR block for subnets "
+  description = "Public   subnets "
   type        = list(string)
 }
 
@@ -31,4 +31,16 @@ variable "ami" {
 variable "authentication_mode" {
   description = "Authentication mode for the EKS cluster"
   type        = string
+}
+
+variable "vpc_cidr" {
+  description = "CIDR block for the VPC"
+  type        = string
+  
+}
+
+variable "subnet_cidr" {
+  description = "List of CIDR blocks for the subnets"
+  type        = list(string)
+  
 }
