@@ -7,10 +7,10 @@ resource "helm_release" "nginx_ingress" {
   
   create_namespace = true
 
-  set  {
+  set = [ {
     name  = "controller.service.type"
     value = "LoadBalancer"
-  }
+  } ]
   
 }
 
@@ -22,10 +22,11 @@ resource "helm_release" "cert_manager" {
   namespace        = "cert-manager"
   create_namespace = true
 
-  set  {
+  set = [ {
     name  = "installCRDs"
     value = "true"
   }
+  ]
   
 }
 
@@ -37,32 +38,27 @@ resource "helm_release" "rancher" {
   namespace        = "cattle-system"
   create_namespace = true
 
-  set  {
+  set =[ {
     name  = "hostname"
     value = ""
-    
-  }
-
+  },
   #Disabling default service and setting up ours
-  set  {
+  {
     name  = "service.enabled"
     value = "false"
     
-  }
-
-  set {
+  },
+ {
     name = "ingress.enabled"
     value = "false"
-  }
-
-  set {
+  },
+  {
     name  = "service.ports.http"
     value = "8080"
-  }
-
-  set {
+  },
+ {
     name  = "service.ports.https"
     value = "8443"
   }
-
+  ]
 }
