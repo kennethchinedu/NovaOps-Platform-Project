@@ -15,7 +15,6 @@ spec:
     - my-gateway
     - mesh # to allow internal communication within the mesh
   http:
-  #Route traffic if URI starts with / to frontend-service by default
   - name: frontend-route 
     route: 
       - destination: 
@@ -30,7 +29,6 @@ spec:
             number: 80
         subset: v2
         weight: 20
-
 
   - name: product-catalog-route
     match:
