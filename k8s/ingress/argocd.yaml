@@ -42,3 +42,26 @@ spec:
             port:
               number: 443
     host: acb8d0f2e478547e0a0b5e14c4b4f72c-1734230420.us-east-1.elb.amazonaws.com
+
+
+
+
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   annotations:
+#     alb.ingress.kubernetes.io/backend-protocol-version: GRPC # This tells AWS to send traffic from the ALB using GRPC. Plain HTTP2 can be used, but the health checks wont be available because argo currently downgrade non-grpc calls to HTTP1
+#   labels:
+#     app: argogrpc
+#   name: argogrpc
+#   namespace: argocd
+# spec:
+#   ports:
+#   - name: "443"
+#     port: 443
+#     protocol: TCP
+#     targetPort: 80
+#   selector:
+#     app.kubernetes.io/name: argocd-server
+#   sessionAffinity: None
+#   type: ClusterIP
