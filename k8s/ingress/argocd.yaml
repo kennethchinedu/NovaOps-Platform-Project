@@ -27,7 +27,7 @@ metadata:
   name: argocd-server-http-ingress
   namespace: argocd
   annotations:
-    nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
 spec:
   ingressClassName: nginx
@@ -41,7 +41,7 @@ spec:
             name: argocd-server
             port:
               number: 443
-    host: acb8d0f2e478547e0a0b5e14c4b4f72c-1734230420.us-east-1.elb.amazonaws.com
+    host:  a215361badf864bdeac38a53e5632e38-1722911600.us-east-1.elb.amazonaws.com
 
 
 

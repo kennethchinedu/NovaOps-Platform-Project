@@ -12,7 +12,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - host:    a66cf7b3d5fe04a90858d1e6298363e3-1704340105.us-east-1.elb.amazonaws.com  #  load balancer url 
+  - host:    a215361badf864bdeac38a53e5632e38-1722911600.us-east-1.elb.amazonaws.com  #  load balancer url 
     http:
       paths:
       - path: /
@@ -24,6 +24,11 @@ spec:
               number: 80
 
                   
+
+
+
+
+
 
 # adding below annotation solved the problem for me
 
@@ -46,6 +51,6 @@ spec:
 #             pathType: Prefix
 #             backend:
 #               service:
-#                 name: my-service
+#                 name: my-servilsce
 #                 port:
 #                   number: 80
