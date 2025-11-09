@@ -1,67 +1,30 @@
-# apiVersion: networking.k8s.io/v1
-# kind: Ingress
-# metadata:
-#   name: argocd-server-ingress
-#   namespace: argocd
-#   annotations:
-#     nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
-#     nginx.ingress.kubernetes.io/rewrite-target: /
-# spec:
-#   ingressClassName: nginx
-#   rules:
-#   - host: acb8d0f2e478547e0a0b5e14c4b4f72c-1734230420.us-east-1.elb.amazonaws.com
-#     http:
-#       paths:
-#       - path: /argocd
-#         pathType: Prefix
-#         backend:
-#           service:
-#             name: argocd-server
-#             port:
-#               number: 8080
 
----
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: argocd-server-http-ingress
+  name: argocd-server-ingress
   namespace: argocd
   annotations:
-    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+    # If you encounter a redirect loop or are getting a 307 response code
+    # then you need to force the nginx ingress to connect to the backend using HTTPS.
+    #
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
 spec:
-  ingressClassName: nginx
+  ingressClassName: nginx-app
   rules:
-  - http:
+  - host: a23685fc84b934fd79544cd8b84386f2-948207992.us-east-1.elb.amazonaws.com
+    http:
       paths:
-      - path: /argocd
+      - path: /
         pathType: Prefix
         backend:
           service:
             name: argocd-server
             port:
-              number: 443
-    host:  a215361badf864bdeac38a53e5632e38-1722911600.us-east-1.elb.amazonaws.com
-
-
-
-
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   annotations:
-#     alb.ingress.kubernetes.io/backend-protocol-version: GRPC # This tells AWS to send traffic from the ALB using GRPC. Plain HTTP2 can be used, but the health checks wont be available because argo currently downgrade non-grpc calls to HTTP1
-#   labels:
-#     app: argogrpc
-#   name: argogrpc
-#   namespace: argocd
-# spec:
-#   ports:
-#   - name: "443"
-#     port: 443
-#     protocol: TCP
-#     targetPort: 80
-#   selector:
-#     app.kubernetes.io/name: argocd-server
-#   sessionAffinity: None
-#   type: ClusterIP
+              name: https
+  tls:
+  - hosts:
+    - a23685fc84b934fd79544cd8b84386f2-948207992.us-east-1.elb.amazonaws.com
+    secretName: argocd-server-tls # as expected by argocd-server

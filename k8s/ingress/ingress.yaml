@@ -3,16 +3,16 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: frontend-ingressx
-  namespace: default
+  name: frontend-ingress
+  namespace: inginx-system-utils 
   annotations:
     kubernetes.io/ingress.class: "nginx"
     nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
     # nginx.ingress.kubernetes.io/ssl-redirect: "true"
 spec:
-  ingressClassName: nginx
+  ingressClassName: nginx-utils
   rules:
-  - host:    a215361badf864bdeac38a53e5632e38-1722911600.us-east-1.elb.amazonaws.com  #  load balancer url 
+  - host:   aaf79befcefde4c268fb191f55d08213-385547497.us-east-1.elb.amazonaws.com  #  load balancer url 
     http:
       paths:
       - path: /
@@ -53,4 +53,5 @@ spec:
 #               service:
 #                 name: my-servilsce
 #                 port:
+
 #                   number: 80
