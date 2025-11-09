@@ -6,7 +6,7 @@ module "eks_al2023" {
   version = "~> 21.0"
 
   name               = "${var.tags["Environment"]}-eks2"
-  kubernetes_version = "1.33"
+  kubernetes_version = "1.30"
 
   # Enable accessing cluster from anywhere
   endpoint_public_access = true
@@ -35,10 +35,10 @@ module "eks_al2023" {
       instance_type = "t3.medium"
 
       min_size = 1
-      max_size = 3
+      max_size = 4
       # This value is ignored after the initial creation
       # https://github.com/bryantbiggs/eks-desired-size-hack
-      desired_size = 2
+      desired_size = 3
 
       # This is not required - demonstrates how to pass additional configuration to nodeadm
       # Ref https://awslabs.github.io/amazon-eks-ami/nodeadm/doc/api/

@@ -1,0 +1,15 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: boutique-project-${region}
+spec:
+  sourceRepos: 
+  - https://github.com/kennethchinedu/NovaOps-Platform-Project
+  sourceNamespaces: []
+  destinations: 
+  - namespace: '!kube-system'
+    server: '*'
+  namespaceResourceWhiteList:
+  - group: '*'
+    kind: '*'
+  description: "Project for the boutique app in ${region}"
