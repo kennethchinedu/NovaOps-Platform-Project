@@ -1,0 +1,41 @@
+#This file will deploy our apps into clusters dynmicallt
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: boutique-applicationset
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+    # - clusters: {} #This will fetch the details of our clusters from kubeconfig instead of hardcoding values as iI commented out below
+  - list:
+      elements:
+      - cluster: local
+        url: https://kubernates.default.svc
+        path: k8s/base
+      # - cluster: us-east-2
+      #   url: https://us-east-2.eks.amazonaws.com
+      #   path: k8s/base
+  template:
+    metadata:
+      name: '{{.cluster}}-boutique-application'
+    spec:
+      project: boutique-project
+      source:
+        repoURL: https://github.com/kennethchinedu/NovaOps-Platform-Project
+        targetRevision: HEAD
+        path: {{.path}}
+      destination:
+        server: '{{.url}}'
+        namespace: default
+      syncPolicy:
+        automated:
+          enabled: true
+          prune: true
+          selfHeal: true
+        syncOptions:
+        - Validate=false
+        - CreateNamespace=true
+        - RespectIgnoreDifferences=true
+        - ApplyOutOfSyncOnly=true
+        - SkipDryRunOnMissingResource=true

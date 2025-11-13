@@ -1,13 +1,13 @@
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
-  name: boutique-project-${region}
+  name: boutique-project
 spec:
   sourceRepos: 
   - https://github.com/kennethchinedu/NovaOps-Platform-Project
   sourceNamespaces: []
   destinations: 
-  - namespace: '!kube-system'
+  - namespace: '!kube-system' #do not allow any resources in the kube-system namespace
     server: '*'
   namespaceResourceWhiteList:
   - group: '*'
