@@ -1,0 +1,5 @@
+app_load_balancer: aaf79befcefde4c268fb191f55d08213-385547497.us-east-1.elb.amazonaws.com  
+replicas: 3
+
+service:
+  port: 8080

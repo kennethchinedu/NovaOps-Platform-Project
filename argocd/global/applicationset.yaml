@@ -1,4 +1,5 @@
 #This file will deploy our apps into clusters dynmicallt
+# With this appicationset config, we can add clusters and argocdd deploys to these clusters autmatically
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
@@ -10,7 +11,7 @@ spec:
     # - clusters: {} #This will fetch the details of our clusters from kubeconfig instead of hardcoding values as iI commented out below
   - list:
       elements:
-      - cluster: local
+      - cluster: in-cluster
         url: https://kubernates.default.svc
         path: k8s/base
       # - cluster: us-east-2
@@ -18,15 +19,15 @@ spec:
       #   path: k8s/base
   template:
     metadata:
-      name: '{{.cluster}}-boutique-application'
+      name: '{{cluster}}-boutique-application'
     spec:
       project: boutique-project
       source:
-        repoURL: https://github.com/kennethchinedu/NovaOps-Platform-Project
+        repoURL: https://github.com/kennethchinedu/NovaOps-Platform-Project #This is a public repo
         targetRevision: HEAD
-        path: {{.path}}
+        path: '{{path}}'
       destination:
-        server: '{{.url}}'
+        server: '{{url}}'
         namespace: default
       syncPolicy:
         automated:
@@ -38,4 +39,4 @@ spec:
         - CreateNamespace=true
         - RespectIgnoreDifferences=true
         - ApplyOutOfSyncOnly=true
-        - SkipDryRunOnMissingResource=true
+        - SkipDryRunOnMissingResource=true 

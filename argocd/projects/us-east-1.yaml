@@ -4,12 +4,12 @@ metadata:
   name: boutique-project
 spec:
   sourceRepos: 
-  - https://github.com/kennethchinedu/NovaOps-Platform-Project
+  - https://github.com/kennethchinedu/NovaOps-Platform-Project #This is a public repo 
   sourceNamespaces: []
   destinations: 
   - namespace: '!kube-system' #do not allow any resources in the kube-system namespace
     server: '*'
-  namespaceResourceWhiteList:
+  namespaceResourceWhitelist:
   - group: '*'
     kind: '*'
   description: "Project for the boutique app in ${region}"
