@@ -5,3 +5,4 @@
 *.tfstate.*
 .terraform.tfstate
 .terraform.lock.hcl
+.vagrant
