@@ -1,0 +1,16 @@
+# We will hardcode ip addresses for the load balancer temporarily for now and make it public
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: minikube-pool
+  namespace: metallb-system
+spec:
+  addresses:
+  - 192.168.49.100-192.168.49.120
+---
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: minikube-lb
+  namespace: metallb-system
+
