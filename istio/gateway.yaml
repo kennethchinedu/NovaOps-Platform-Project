@@ -6,6 +6,7 @@ metadata:
 spec:
   selector:
     istio: ingressgateway
+    app: istio-ingressgateway
   servers:
   - port:
       number: 80
@@ -13,8 +14,8 @@ spec:
       protocol: HTTP
     hosts:
     - "*"
-    tls:
-      httpsRedirect: false
+    # tls:
+    #   httpsRedirect: false
   # - port:
   #     number: 443
   #     name: https
