@@ -20,7 +20,7 @@
 #         subset: v2
 #       weight: 20
 ---
-apiVersion: networking.istio.io/v1
+apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
   name: frontendapp-virtual-service
@@ -37,3 +37,11 @@ spec:
         host: frontend-service.default.svc.cluster.local
         port:
           number: 80
+      #   subset: v1
+      # weight: 80 
+    # - destination:
+    #     host: frontend-service.default.svc.cluster.local
+    #     port:
+    #       number: 80
+    #     subset: v2
+    #   weight: 20 
