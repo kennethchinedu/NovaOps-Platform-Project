@@ -1,4 +1,5 @@
-# We will hardcode ip addresses for the load balancer temporarily for now and make it public
+#I used metalb locally to set up external load balancers, to manage cloud clost
+# We will hardcode ip pool for the load balancer temporarily for now and make it public
 apiVersion: metallb.io/v1beta1
 kind: IPAddressPool
 metadata:

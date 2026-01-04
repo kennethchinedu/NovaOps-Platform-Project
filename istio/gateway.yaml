@@ -13,7 +13,7 @@ spec:
       name: http
       protocol: HTTP
     hosts:
-    - "*"
+    - "*" #I am using * to allow all hosts to access the service
     # tls:
     #   httpsRedirect: false
   # - port:
@@ -22,50 +22,5 @@ spec:
   #     protocol: HTTPS
   #   hosts:
   #   - "*"
-
-
-    
-  #   tls:
-  #     mode: SIMPLE # enables HTTPS on this port
-  #     serverCertificate: /etc/certs/servercert.pem
-  #     privateKey: /etc/certs/privatekey.pem
-  # - port:
-  #     number: 9443
-  #     name: https-9443
-  #     protocol: HTTPS
-  #   hosts:
-  #   - "bookinfo-namespace/*.bookinfo.com"
-  #   tls:
-  #     mode: SIMPLE # enables HTTPS on this port
-  #     credentialName: bookinfo-secret # fetches certs from Kubernetes secret
-  # - port:
-  #     number: 9080
-  #     name: http-wildcard
-  #     protocol: HTTP
-  #   hosts:
-  #   - "*"
-  # - port:
-  #     number: 2379 # to expose internal service via external port 2379
-  #     name: mongo
-  #     protocol: MONGO
-  #   hosts:
-  #   - "*"
-
-
-
-
-#To Do today 
-# deploy app 
-# create destination rule
-# create virtual service
-# create gateway
-# test access from outside
-# Set up argocd and gitops for deployment
-# Set up monitoring and logging (prometheus, grafana, kiali)
-# set up infra for cloudflare
-# set up dns for cloudflare
-# set up zones and connect domain
-# set up ssl for cloudflare
-# connect cloudflare to istio ingress gateway]
 
 

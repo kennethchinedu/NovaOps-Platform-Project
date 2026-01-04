@@ -115,13 +115,28 @@ resource "helm_release" "metallb" {
 }
 
 
-#Add env in deployment
-#  env:
-#         - name: ARGOCD_SERVER_BASEHREF
-#           value: /argocd
 
-#update configmap
-# data:
+################# MONITORING STACK INSTALLATION #################
+#To keep things simple we will be installing manifest for out monitoring stack directly
+
+resource "null_resource" "istio_grafana" {
+  provisioner "local-exec" {
+    command = "kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.28/samples/addons/grafana.yaml"
+  }
+}
+
+resource "null_resource" "istio_prometheus" {
+  provisioner "local-exec" {
+    command = "kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.28/samples/addons/prometheus.yaml"
+  }
+}
+
+resource "null_resource" "istio_kiali" {
+  provisioner "local-exec" {
+    command = "kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.28/samples/addons/kiali.yaml"
+  }
+}
+
 
 # # Rancher
 # resource "helm_release" "rancher" {

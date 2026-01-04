@@ -1,4 +1,0 @@
-image: myapp:v1
-replicas: 3
-service:
-  port: 8080

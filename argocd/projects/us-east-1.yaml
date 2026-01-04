@@ -12,4 +12,4 @@ spec:
   namespaceResourceWhitelist:
   - group: '*'
     kind: '*'
-  description: "Project for the boutique app in ${region}"
+  description: "Project for the boutique app in"

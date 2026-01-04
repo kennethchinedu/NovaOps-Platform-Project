@@ -1,25 +1,3 @@
-# apiVersion: networking.istio.io/v1
-# kind: VirtualService
-# metadata:
-#   name: frontendapp-virtual-service
-#   namespace: default
-# spec:
-#   hosts:
-#   - "*"
-#   gateways:
-#   - frontend-gateway
-#   http:
-#   - name: frontendapp-split
-#     route:
-#     - destination:
-#         host: frontend-service
-#         subset: v1
-#       weight: 80
-#     - destination:
-#         host: frontend-service
-#         subset: v2
-#       weight: 20
----
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
@@ -45,3 +23,5 @@ spec:
     #       number: 80
     #     subset: v2
     #   weight: 20 
+
+#I am commenting out the canery deployment to keep it simple

@@ -1,3 +1,6 @@
+#Adding an application to the argocd server, but this is not needed for the applicationset config
+#I prefer using the applicationset config instead of adding applications manually
+#But this is still a good example of how to add an application to the argocd server
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:

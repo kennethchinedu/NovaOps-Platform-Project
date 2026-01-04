@@ -1,9 +1,11 @@
+# Destination rule for the frontend service
 apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:
   name: frontendapp-destination
   namespace: default
 spec:
+#I am hardcoding the host and subsets here, but in a real-world scenario, I would use a more dynamic approach
   host: frontend-service.default.svc.cluster.local
   subsets:
   - name: v1

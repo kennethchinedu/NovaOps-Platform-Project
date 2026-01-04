@@ -8,12 +8,12 @@ spec:
   goTemplate: true
   goTemplateOptions: ["missingkey=error"]
   generators:
-    # - clusters: {} #This will fetch the details of our clusters from kubeconfig instead of hardcoding values as iI commented out below
   - list:
       elements:
       - cluster: in-cluster
         url: https://kubernates.default.svc
         path: k8s/base
+      # This is an example of how to add a second cluster to the applicationset
       # - cluster: us-east-2
       #   url: https://us-east-2.eks.amazonaws.com
       #   path: k8s/base
