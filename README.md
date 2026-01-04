@@ -22,7 +22,6 @@ This project provides a complete, modular platform for deploying and managing cl
 
 ```bash
 .
-.
 ├── README.md
 ├── argocd
 │   ├── apps
@@ -97,10 +96,22 @@ This project provides a complete, modular platform for deploying and managing cl
 
 ---
 
-## ⚡ Quick Start
 
 1. Provision infrastructure:
 
 ```bash
-cd infra/environment/prod
-terragrunt apply-all
+
+cd infra/environment/prod/each-module
+#create a prod.tfvars using the example file
+terragrunt apply
+
+# Deploy ArgoCD applications
+
+kubectl apply -f argocd/projects/
+kubectl apply -f argocd/global/
+
+# Deploy frontend Helm chart
+helm install app k8s/boutique-app -f k8s/boutique-app/values.yaml
+
+# Verify Istio routes
+kubectl get virtualservice,destinationrule -n default
