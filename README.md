@@ -8,9 +8,9 @@ This repository defines the **infrastructure, deployment, and observability stac
 
 This project provides a complete, modular platform for deploying and managing cloud-native workloads across **staging** and **production** environments.
 
-<p float="center">
-  <img src="/k8s1.png" width="500" />
-  <img src="/k8s1.png" width="500" />
+<p float="left">
+  <img src="/k8s1.png" width="300" />
+  <img src="/k8s1.png" width="300" />
 </p>
 
 ### Key Capabilities
