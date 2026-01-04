@@ -100,7 +100,7 @@ This project provides a complete, modular platform for deploying and managing cl
 
 1. Provision infrastructure:
 
-bash
+```bash
 
 cd infra/environment/prod/each-module
 #create a prod.tfvars using the example file
@@ -116,3 +116,5 @@ helm install app k8s/boutique-app -f k8s/boutique-app/values.yaml
 
 # Verify Istio routes
 kubectl get virtualservice,destinationrule -n default
+
+```
