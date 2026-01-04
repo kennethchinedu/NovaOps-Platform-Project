@@ -1,7 +1,6 @@
 # Enterprise DevOps Infrastructure Project
 
 This repository defines the **infrastructure, deployment, and observability stack** for our enterprise platform.  
-It leverages **Terraform + Terragrunt**, **Kubernetes + Istio**, **ArgoCD (GitOps)**, and **Prometheus / Grafana / Loki** for full lifecycle automation and visibility.
 
 ---
 
@@ -14,78 +13,83 @@ This project provides a complete, modular platform for deploying and managing cl
 - ☸️ **Kubernetes Platform Management** — Helm + Istio for service mesh and traffic routing  
 - 🔁 **GitOps Deployment** — Continuous delivery with ArgoCD  
 - 🌍 **Edge Networking** — Cloudflare for DNS, CDN, SSL, and WAF  
-- 📊 **Observability Stack** — Prometheus (metrics), Loki (logs), Grafana (dashboards)  
+- 📊 **Observability Stack** — Prometheus (metrics), Loki (logs), Grafana (dashboards) Kiali (Mesh monitoring)  
 - 🔐 **Security Modules** — Network policies, IAM, and secret management  
 
 ---
 
-## 📁 Repository Structure
 ## 🧩 Repository Structure
 
 ```bash
 .
+.
+├── README.md
 ├── argocd
-│   ├── apps/                 # ArgoCD App manifests (per-app or per-environment)
-│   │   ├── app-frontend-prod.yaml
-│   │   └── app-backend-staging.yaml
-│   └── projects/
-│       ├── project-prod.yaml
-│       └── project-staging.yaml
-│
-├── cloudflare                # infra-as-code for edge (Terraform)
-│
+│   ├── apps
+│   │   └── us-east-1
+│   │       └── app.yaml
+│   ├── global
+│   │   ├── applicationset.yaml
+│   │   ├── clusters.yaml
+│   │   ├── sa_and_roles.yaml
+│   │   └── secrets.yaml
+│   └── projects
+│       └── us-east-1.yaml
 ├── infra
-│   ├── environments
+│   ├── environment
 │   │   ├── prod
-│   │   │   ├── terragrunt.hcl
-│   │   │   └── region/
+│   │   │   ├── eks
+│   │   │   │   └── terragrunt.hcl
+│   │   │   ├── firewalls
+│   │   │   ├── networking
+│   │   │   │   └── terragrunt.hcl
+│   │   │   ├── prod.tfvars
+│   │   │   └── utils
+│   │   │       └── terragrunt.hcl
+│   │   ├── root.hcl
 │   │   └── staging
-│   │       └── terragrunt.hcl
 │   ├── modules
 │   │   ├── eks
+│   │   │   ├── main.tf
+│   │   │   ├── output.tf
+│   │   │   └── variables.tf
 │   │   ├── global
+│   │   ├── networking
+│   │   │   ├── main.tf
+│   │   │   ├── output.tf
+│   │   │   └── variables.tf
 │   │   ├── security
-│   │   └── vpc
-│   └── terragrunt             # shared terragrunt helpers / remote state config
-│
+│   │   └── utils
+│   │       ├── README.md
+│   │       ├── main.tf
+│   │       └── varables.tf
+│   └── terragrunt
 ├── istio
-│   ├── global/
-│   │   ├── destination_rule.yaml
-│   │   └── virtual_service.yaml
-│   ├── gateways/
-│   │   └── gateway.yaml
-│   └── apps/
-│       ├── frontend/
-│       │   └── virtual_service.yaml
-│       └── backend/
-│           └── destination_rule.yaml
-│
+│   ├── destinaton_rule.yaml
+│   ├── gateway.yaml
+│   ├── mlts.yaml
+│   └── virtual_service.yaml
 ├── k8s
-│   ├── base                  # Kustomize base resources
+│   ├── base
 │   │   ├── deployment.yaml
 │   │   ├── service.yaml
-│   │   ├── ingress.yaml
-│   │   ├── service_account.yaml
 │   │   └── volume.yaml
-│   ├── overlays              # Env-specific overlays (kustomize)
-│   │   ├── prod
-│   │   └── staging
-│   └── helm                  # Helm charts for all microservices
-│
-├── observability
-│   ├── prometheus
-│   ├── grafana
-│   └── loki
-│
-├── security
-│   ├── opa-policies
-│   └── terraform-policies
-│
-├── ci-cd                     # GitHub Actions / GitLab Pipelines / scripts
-│
-├── docs
-│   ├── architecture.md
-│   └── runbooks/
-│
-├── makefile
-└── README.md
+│   └── boutique-app
+│       ├── Chart.yaml
+│       ├── charts
+│       ├── sa.yaml
+│       ├── templates
+│       │   ├── NOTES.txt
+│       │   ├── _helpers.tpl
+│       │   ├── deployment.yaml
+│       │   ├── hpa.yaml
+│       │   ├── ingress.yaml
+│       │   ├── service.yaml
+│       │   ├── serviceaccount.yaml
+│       │   └── tests
+│       │       └── test-connection.yaml
+│       └── values.yaml
+├── k8s1.png
+├── metallb
+│   └── metal-config.yaml
+└── vagrantfile
