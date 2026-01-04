@@ -93,3 +93,14 @@ This project provides a complete, modular platform for deploying and managing cl
 ├── metallb
 │   └── metal-config.yaml
 └── vagrantfile
+
+
+---
+
+## ⚡ Quick Start
+
+1. Provision infrastructure:
+
+```bash
+cd infra/environment/prod
+terragrunt apply-all
