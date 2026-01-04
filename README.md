@@ -8,7 +8,10 @@ This repository defines the **infrastructure, deployment, and observability stac
 
 This project provides a complete, modular platform for deploying and managing cloud-native workloads across **staging** and **production** environments.
 
-![Alt text](k8s1.png)
+<p float="left">
+  <img src="/k8s1.png" width="300" />
+  <img src="/k8s1.png" width="300" />
+</p>
 
 ### Key Capabilities
 - 🚀 **Infrastructure as Code (IaC)** — Terraform modules orchestrated with Terragrunt  
