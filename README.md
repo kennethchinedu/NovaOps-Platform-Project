@@ -93,13 +93,14 @@ This project provides a complete, modular platform for deploying and managing cl
 │   └── metal-config.yaml
 └── vagrantfile
 
+```
 
 ---
 
 
 1. Provision infrastructure:
 
-```bash
+bash
 
 cd infra/environment/prod/each-module
 #create a prod.tfvars using the example file
