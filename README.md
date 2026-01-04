@@ -10,13 +10,12 @@ This project provides a complete, modular platform for deploying and managing cl
 
 <p float="left">
   <img src="images/k8s1.png" width="400" />
-  <img src="images/kiali-dashboard.png" width="400" />
-  <img src="images/graphana-dashboard.png" width="400" />
+  <img src="images/grafana-dashboard.png" width="400" />
 </p>
 
 
 <p float="left">
-  <img src="images/grafana-dashboard.png" width="400" />
+  <img src="images/kiali-dashboard.png"/>
 </p>
 
 ### Key Capabilities
